@@ -21,12 +21,10 @@ const Blog = (props) => {
     }
   }
 
-  const showDelete = () => {
-    if (blog.user === props.user.id) return { display: '' }
-    return blog.user.username === props.user.username
+  const showDelete =
+    blog.user.username === props.user.username
       ? { display: '' }
       : { display: 'none' }
-  }
 
   // console.log(blog);
   return (
@@ -49,7 +47,7 @@ const Blog = (props) => {
           </span>
         </div>
         <div>{blog.user.username}</div>
-        <button style={showDelete()} onClick={() => props.handleDelete(blog)}>
+        <button style={showDelete} onClick={() => props.handleDelete(blog)}>
           delete
         </button>
       </div>
