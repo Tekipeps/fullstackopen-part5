@@ -10,14 +10,13 @@ const Blog = (props) => {
 
   const handleLike = async () => {
     try {
-      const newBlog = await blogService.like({
+      await blogService.like({
         ...blog,
         likes: blog.likes + 1,
       })
-      setBlog(newBlog)
-      console.log('success')
+      setBlog({ ...blog, likes: blog.likes + 1 })
     } catch (error) {
-      console.log(error.response)
+      console.log(error)
     }
   }
 
