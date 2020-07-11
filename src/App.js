@@ -77,6 +77,14 @@ const App = () => {
       setNotification({})
     }, 4000)
   }
+  const handleLike = async (blog) => {
+    try {
+      await blogService.like(blog)
+      return true
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   const handleDelete = async (blog) => {
     try {
@@ -141,6 +149,7 @@ const App = () => {
           key={blog.id}
           blog={blog}
           handleDelete={handleDelete}
+          handleLike={handleLike}
           user={user}
         />
       ))}
