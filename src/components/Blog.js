@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import blogService from '../services/blogs'
 import PropTypes from 'prop-types'
 
 const Blog = (props) => {
@@ -8,16 +7,12 @@ const Blog = (props) => {
 
   const showWhenVisible = { display: visible ? '' : 'none' }
 
-  const handleLike = async () => {
-    try {
-      await blogService.like({
-        ...blog,
-        likes: blog.likes + 1,
-      })
-      setBlog({ ...blog, likes: blog.likes + 1 })
-    } catch (error) {
-      console.log(error)
-    }
+  const Like = () => {
+    const liked = props.handleLike({
+      ...blog,
+      likes: blog.likes + 1,
+    })
+    if (liked) setBlog({ ...blog, likes: blog.likes + 1 })
   }
 
   const showDelete =
@@ -28,7 +23,7 @@ const Blog = (props) => {
   // console.log(blog);
   return (
     <div className="blog">
-      <p>
+      <p className="notToggled">
         {blog.title} {blog.author}{' '}
         <span>
           <button onClick={() => setVisible(!visible)}>
@@ -37,12 +32,14 @@ const Blog = (props) => {
         </span>
       </p>
 
-      <div style={showWhenVisible}>
+      <div className="toggled" style={showWhenVisible}>
         <div>{blog.url}</div>
         <div>
           likes {blog.likes}
           <span>
-            <button onClick={() => handleLike()}>like</button>
+            <button className="likeButton" onClick={() => Like()}>
+              like
+            </button>
           </span>
         </div>
         <div>{blog.user.username}</div>
