@@ -1,9 +1,10 @@
 import React from 'react'
 import '@testing-library/jest-dom/extend-expect'
-import { render } from '@testing-library/react'
+import { render, fireEvent } from '@testing-library/react'
 import Blog from './Blog'
 
-test('renders content', () => {
+describe('<Blog />', () => {
+  let component // eslint-disable-line no-unused-vars
   const blog = {
     likes: 11,
     title: 'Go To Statement Considered Harmful',
@@ -22,9 +23,38 @@ test('renders content', () => {
     name: 'dodo',
     id: '5f052eea5550839823b25410',
   }
-  const component = render(<Blog blog={blog} user={user} />)
 
-  expect(component.container).toHaveTextContent(
-    'Go To Statement Considered Harmful'
-  )
+  beforeEach(() => {
+    component = render(<Blog blog={blog} user={user} />)
+  })
+
+  test('5.13: Blog list tests, step1', () => {
+    const notToggledDiv = component.container.querySelector('.notToggled')
+    expect(notToggledDiv).not.toHaveStyle('display: none')
+    expect(notToggledDiv).toHaveTextContent(blog.title)
+    expect(notToggledDiv).toHaveTextContent(blog.author)
+    expect(notToggledDiv).not.toHaveTextContent(blog.url)
+    expect(notToggledDiv).not.toHaveTextContent(blog.likes)
+  })
+
+  test('5.14: Blog list tests, step2', () => {
+    const toggledDiv = component.container.querySelector('.toggled')
+    expect(toggledDiv).toHaveStyle('display: none')
+
+    const button = component.getByText('show')
+    fireEvent.click(button)
+
+    expect(toggledDiv).not.toHaveStyle('display: none')
+  })
+
+  test('5.15: Blog list tests, step3', () => {
+    const mockHandler = jest.fn()
+    component = render(
+      <Blog blog={blog} user={user} handleLike={mockHandler} />
+    )
+    const likeButton = component.container.querySelector('.likeButton')
+    fireEvent.click(likeButton)
+    fireEvent.click(likeButton)
+    expect(mockHandler.mock.calls).toHaveLength(2)
+  })
 })
