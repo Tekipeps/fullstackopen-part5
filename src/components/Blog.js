@@ -24,9 +24,13 @@ const Blog = (props) => {
   return (
     <div className="blog">
       <p className="notToggled">
-        {blog.title} {blog.author}{' '}
+        <span className="title">{blog.title}</span>{' '}
+        <span className="author">{blog.author}</span>
         <span>
-          <button onClick={() => setVisible(!visible)}>
+          <button
+            className="toggle-blog-view"
+            onClick={() => setVisible(!visible)}
+          >
             {visible ? 'hide' : 'show'}
           </button>
         </span>
@@ -43,7 +47,11 @@ const Blog = (props) => {
           </span>
         </div>
         <div>{blog.user.username}</div>
-        <button style={showDelete} onClick={() => props.handleDelete(blog)}>
+        <button
+          className="deleteButton"
+          style={showDelete}
+          onClick={() => props.handleDelete(blog)}
+        >
           delete
         </button>
       </div>
